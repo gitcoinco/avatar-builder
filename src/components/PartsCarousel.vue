@@ -59,8 +59,8 @@ export default {
          Using this.$data.slides values updates the avatar setting visible/hidden to some items
  *
  */
-      partsGrouped() {
-          console.log(this.$parent.$parent.$refs.avatar.current().parts);
+    partsGrouped() {
+      console.log(this.$parent.$parent.$refs.avatar.current().parts);
       return _.groupBy(
         this.$parent.$parent.$refs.avatar.current().parts,
         it => it.id.split("_")[0]
