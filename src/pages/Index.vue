@@ -1,17 +1,27 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="fluid justify-center">
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" /> -->
-    <img alt="ava" src="~/assets/avatar.svg" />
-    <q-btn @click="toggleType('hair')">Toggle Hair</q-btn>
-    <q-btn @click="toggleType('eyes')">Toggle Eyes</q-btn>
-    <q-btn @click="toggleType('nose')">Toggle Nose</q-btn>
-    <q-btn @click="toggleType('mouth')">Toggle Mouth</q-btn>
-    <q-btn @click="toggleType('ears')">Toggle Ears</q-btn>
-    <q-btn @click="toggleType('clothing')">Toggle Clothing</q-btn>
-    <q-btn @click="toggleType('background')">Toggle Background</q-btn>
-
-    <br />
-    <object type="image/svg+xml" data="img/avatar.svg" class="avatar"></object>
+    <img alt="ava1" src="~/assets/avatar1.svg" class="px1" />
+    <img alt="ava2" src="~/assets/avatar2.svg" class="px1" />
+    <img alt="ava3" src="~/assets/avatar3.svg" class="px1" />
+    <img alt="ava4" src="~/assets/avatar4.svg" class="px1" />
+    <div class="row">
+      <div class="col col-3 justify-center item-center">
+        <AvatarsCarousel ref="avatar" />
+      </div>
+      <div class="col col-auto flex justify-center item-center">
+        <object
+          type="image/svg+xml"
+          data="img/avatar1.svg"
+          class="avatar wrap"
+        ></object>
+      </div>
+    </div>
+    <div class="row justify-beginning">
+      <div class="col-auto flex">
+        <PartsCarousel ref="parts" />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -19,15 +29,28 @@
 .avatar {
   height: 600px;
 }
+.px1 {
+  width: 1px;
+  height: 1px;
+}
 </style>
 
 <script>
+import AvatarsCarousel from "../components/AvatarsCarousel";
+import PartsCarousel from "../components/PartsCarousel";
 export default {
   name: "PageIndex",
+  mounted() {
+    console.log("mounted", this.$refs.parts);
+  },
   data: function() {
     return {
       visibility: true
     };
+  },
+  components: {
+    AvatarsCarousel,
+    PartsCarousel
   },
   methods: {
     toggleType: function(type) {
