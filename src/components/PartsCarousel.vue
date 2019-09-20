@@ -78,10 +78,10 @@ export default {
     updateAvatar() {
       _.each(this.$data.slides, (val, key) => {
         console.log("Key:Val", val, key);
-        document
-          .querySelector("object")
-          .getSVGDocument()
-          .rootElement.querySelectorAll("g[id *= '" + key + "_']")
+        let svgDoc = document.querySelector("object").getSVGDocument() || document.querySelector("object").contentDocument;
+
+svgDoc
+.rootElement.querySelectorAll("g[id *= '" + key + "_']")
           .forEach(el => {
             let id = el.getAttribute("id");
             let visibility = id.endsWith("_" + (val + 1))

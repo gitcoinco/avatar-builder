@@ -59,9 +59,10 @@ export default {
       console.log(currentAvatarModel);
       console.log(this, slide, currentAvatarModel);
       let avaSVG = document.querySelector("object");
+      let avaSVGDoc = avaSVG.getSVGDocument() ||  avaSVG.contentDocument;
       avaSVG.setAttribute("data", currentAvatarModel.src);
       currentAvatarModel.parts = Array.prototype.slice
-        .call(avaSVG.getSVGDocument().rootElement.querySelectorAll("g[id]"))
+        .call(avaSVGDoc.rootElement.querySelectorAll("g[id]"))
         .map(it => {
           return {
             id: it.getAttribute("id"),
