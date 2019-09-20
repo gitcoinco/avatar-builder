@@ -53,27 +53,6 @@ export default {
     PartsCarousel
   },
   methods: {
-    toggleType: function(type) {
-      //console.log("click:" + this.visibility);
-
-      this.visibility = !this.visibility;
-
-      let getStringVisibility = it => (it ? "visible" : "hidden");
-
-      const set1 = document
-        .querySelector("object.avatar")
-        .getSVGDocument()
-        .rootElement.getElementById(type + "_x5F_1");
-      if (set1)
-        set1.setAttribute("visibility", getStringVisibility(this.visibility));
-
-      const set2 = document
-        .querySelector("object.avatar")
-        .getSVGDocument()
-        .rootElement.getElementById(type + "_x5F_2");
-      if (set2)
-        set2.setAttribute("visibility", getStringVisibility(!this.visibility));
-    }
   }
 };
 </script>
