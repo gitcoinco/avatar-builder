@@ -1,0 +1,17 @@
+{
+  "@quasar/testing": {
+    "harnesses": [
+      "unit-jest",
+      "e2e-webdriver"
+    ]
+  },
+  "@quasar/testing-unit-jest": {
+    "babel": "babelrc",
+    "options": []
+  },
+  "@quasar/testing-e2e-webdriver": {
+    "options": [
+      "scripts"
+    ]
+  }
+}
