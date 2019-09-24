@@ -3,18 +3,12 @@
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" /> -->
     <img alt="ava1" src="~/assets/avatar1.svg" class="px1" />
     <img alt="ava2" src="~/assets/avatar2.svg" class="px1" />
-    <img alt="ava3" src="~/assets/avatar3.svg" class="px1" />
-    <img alt="ava4" src="~/assets/avatar4.svg" class="px1" />
     <div class="row">
       <div class="col col-3 justify-center item-center">
-        <AvatarsCarousel ref="avatar" />
+        <AvatarsCarousel ref="avatarCarousel" />
       </div>
       <div class="col col-auto flex justify-center item-center">
-        <object
-          type="image/svg+xml"
-          data="img/avatar1.svg"
-          class="avatar wrap"
-        ></object>
+        <Avatar />
       </div>
     </div>
     <div class="row justify-beginning">
@@ -36,6 +30,7 @@
 </style>
 
 <script>
+import Avatar from "../components/Avatar";
 import AvatarsCarousel from "../components/AvatarsCarousel";
 import PartsCarousel from "../components/PartsCarousel";
 export default {
@@ -49,10 +44,10 @@ export default {
     };
   },
   components: {
+    Avatar,
     AvatarsCarousel,
     PartsCarousel
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
