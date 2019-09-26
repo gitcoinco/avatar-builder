@@ -16,7 +16,9 @@
     "test:e2e:electron": "npx wdio ./test/webdriver/config/wdio.electron.conf.js",
     "selenium:install": "npx selenium-standalone install",
     "selenium:start": "npx selenium-standalone start",
-    "electron-chromedriver": "./node_modules/electron-chromedriver/bin/chromedriver --port=9515 --url-base=wd/hub --verbose"
+    "electron-chromedriver": "./node_modules/electron-chromedriver/bin/chromedriver --port=9515 --url-base=wd/hub --verbose",
+    "start": "npx quasar serve dist/spa --port ${PORT:-4000}",
+    "postinstall": "yarn run build"
   },
   "dependencies": {
     "@quasar/extras": "^1.3.2",
