@@ -21,7 +21,7 @@
           :name="index"
           class="column no-wrap"
           :img-src="avatar.src"
-          v-for="(avatar, index) in avatars"
+          v-for="(avatar, index) in $data.avatars"
           :key="index"
         />
       </q-carousel>
@@ -31,32 +31,28 @@
 <script>
 import AvatarMixin from "../mixins/avatar-mixin";
 export default {
-  name: "AvatarCarousel",
+  name: "AvatarsCarousel",
   mixins: [AvatarMixin],
-  // mounted() {
-  //   console.log("mounted");
-  //   setTimeout(() => {
-  //     this.updateParts(0);
-  //     this.$parent.$parent.$refs.parts.$forceUpdate();
-  //   }, 3000); // TODO workaround
-  // },
   data() {
     return {
-      slide: "0"
+      slide: 0
     };
   },
-  props: {},
-  computed: {
-    avatars() {
-      return this.$data;
-    }
+  created() {
+    //console.log("DATA:", this.$data);
   },
   methods: {
     current() {
-      return this.$data[parseInt(this.$data.slide, 10) - 1];
+      return this.$data.avatars[parseInt(this.$data.slide, 10)];
     },
     updateParts() {
-      //this.$parent.$refs.parts.$forceUpdate();
+      console.log("data()", this.$data);
+      console.log("slide", this.$data.slide);
+      console.log("current().src", this.current().src);
+      const partsInstance = this.$parent.$refs.parts;
+      this.$parent.$refs.avatar.$emit("svg-loaded", this.current().src);
+      partsInstance && partsInstance.$forceUpdate();
+
       console.log("Slide:", arguments);
       let avaSVG = document.querySelector("object");
       if (avaSVG) {

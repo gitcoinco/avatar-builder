@@ -37,62 +37,43 @@
   </div>
 </template>
 <script>
-import _ from "lodash";
+// import _ from "lodash";
 export default {
-  data() {
-    return {
-      slides: {
-        background: 0,
-        clothing: 0,
-        ears: 0,
-        head: 0,
-        mouth: 0,
-        nose: 0,
-        eyes: 0,
-        hair: 0
-      }
-    };
-  },
-  props: {},
-  computed: {
-    /**
-         Using this.$data.slides values updates the avatar setting visible/hidden to some items
- *
- */
-    partsGrouped() {
-      console.log(this.$parent.$parent.$refs.avatar.current().parts);
-      return _.groupBy(
-        this.$parent.$parent.$refs.avatar.current().parts,
-        it => it.id.split("_")[0]
-      );
+  /* eslint-disable vue/no-shared-component-data */
+  data: {
+    slides: {
+      background: 0,
+      clothing: 0,
+      ears: 0,
+      head: 0,
+      mouth: 0,
+      nose: 0,
+      eyes: 0,
+      hair: 0
     }
   },
+  //  props: {},
+  //  computed: {
+  //    /**
+  //         Using this.$data.slides values updates the avatar setting visible/hidden to some items
+  // *
+  // */
+  //  },
   mounted() {
     console.log("Mounted");
   },
   methods: {
     selectItem() {
       console.log(this.$data.slides, this.$data.partsGrouped);
-      this.updateAvatar();
+      this.$parent.$parent.$refs.avatar.update();
     },
-    updateAvatar() {
-      _.each(this.$data.slides, (val, key) => {
-        console.log("Key:Val", val, key);
-        let svgDoc =
-          document.querySelector("object").contentDocument ||
-          document.querySelector("object").getSVGDocument();
-
-        svgDoc.rootElement
-          .querySelectorAll("g[id *= '" + key + "_']")
-          .forEach(el => {
-            let id = el.getAttribute("id");
-            let visibility = id.endsWith("_" + (val + 1))
-              ? "visible"
-              : "hidden";
-            console.log("Setting", key, val + 1, id, "to", visibility);
-            el.setAttribute("visibility", visibility);
-          });
-      });
+    partsGrouped() {
+      // console.log(this.$parent.$parent.$refs.avatar.current().parts);
+      // return _.groupBy(
+      //   this.$parent.$parent.$refs.avatar.current().parts,
+      //   it => it.id.split("_")[0]
+      // );
+      return this.$parent.$parent.$refs.avatar.partsGrouped();
     }
   }
 };

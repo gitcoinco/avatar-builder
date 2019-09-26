@@ -8,15 +8,18 @@ export default {
     // }
   },
   data() {
-    return [
-      {
-        src: "img/avatar1.svg",
-        parts: []
-      },
-      {
-        src: "img/avatar2.svg",
-        parts: []
-      }
-    ];
+    return {
+      slide: 0,
+      avatars: [
+        {
+          src: "img/avatar1.svg",
+          parts: []
+        },
+        {
+          src: "img/avatar2.svg",
+          parts: []
+        }
+      ]
+    };
   }
 };

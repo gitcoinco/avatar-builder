@@ -20,65 +20,86 @@ const components = Object.keys(All).reduce((object, key) => {
 }, {})
 
 describe('Mount Quasar', () => {
-  const localVue = createLocalVue()
-  localVue.use(Quasar, { components }) // , lang: langEn
+  let localVue, wrapper, vm
 
-  const wrapper = shallowMount(Avatar, {
-    localVue
+  beforeEach(() => {
+    localVue = createLocalVue()
+    localVue.use(Quasar, { components }) // , lang: langEn
+
+    wrapper = shallowMount(Avatar, {
+      localVue
+    })
+    vm = wrapper.vm
   })
 
-  const vm = wrapper.vm
-
+  jest.setTimeout(10000)
   it('passes the sanity check and creates a wrapper', () => {
     expect(wrapper.isVueInstance()).toBe(true)
   })
+  describe("events", () => {
+    it('`svg-loaded` event', () => {
+      vm.$emit('svg-loaded', {src: '/img/some_img.svg'})
+      wrapper.trigger('svg-loaded', {src: '/img/some_img.svg'})
+      expect(wrapper.emitted()['svg-loaded'][1]).toEqual([{src:'/img/some_img.svg'}])
+      expect(vm.$data.src).toBe("/img/some_img.svg")
+    })
+
+    it('`svg-loaded` even via stubs', () => {
+      vm.loadSVG = sinon.stub()
+      vm.errorHappened = sinon.stub()
+      wrapper.trigger('svg-loaded', {src: '/img/some_img.svg'})
+      expect(vm.loadSVG.called).toBe(true)
+      expect(vm.errorHappened.called).toBe(false)
+    })
+  })
 
   describe("methods", () => {
-    jest.setTimeout(3000)
-    it("showPart sould properly set part visibility", async () => {
+    it("showPart sould properly set part visibility", async() => {
       expect(true).toBe(true)
 
       vm.errorHappened = sinon.stub()
       vm.showPart = sinon.stub()
-      vm.$el.svg = function(){
-        return this.contentDocument || (this.getSVGDocument && this.getSVGDocument()) || this
-      }
 
+      vm.$emit('svg-loaded', {src: 'img/avatar1.svg'})
+      wrapper.trigger('svg-loaded', {src: "img/avatar1.svg"})
 
-      vm.$data.src = "img/avatar1.svg";
-      wrapper.find('svg').trigger('load')
-      // Letting SVG load - delyaing for 1 second
+      expect(vm.$data.src).toBe("img/avatar1.svg")
       await new Promise(resolve => setTimeout(resolve, 1000))
+
+      expect(vm.svg().querySelector('g[id]')).toBeDefined()
+      expect(vm.svg().querySelector('g[id]')).not.toBeNull()
+      expect(vm.svg().querySelectorAll('g[id]').length).toBe(24)
+
+
+    })
+    it("showPart sould properly set part visibility", async () => {
+      console.log('---');
+
+      vm.$emit('svg-loaded', {src: 'img/avatar2.svg'})
+      wrapper.trigger('svg-loaded', {src: "img/avatar2.svg"})
+      // letting component redraw
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      console.log(vm.$data.src);
+      expect(vm.$data.src).toBe("img/avatar2.svg")
+
+      expect(vm.svg().querySelector('g[id]')).toBeDefined()
+      expect(vm.svg().querySelector('g[id]')).not.toBeNull()
+      expect(vm.svg().querySelectorAll('g[id]').length).toBe(58)
+
 
       const parts = vm.partsGrouped()
       const megaObject = _.reduce(parts, function(memo, current) { return _.assign(memo, current) },  {})
+      expect(Object.keys(megaObject).length).toBe(10);
 
-      expect(Object.keys(megaObject).length)
-        .toBe(4);
-      expect(vm.$el.svg().querySelector('g[id]')).toBeDefined()
+    })
 
-      vm.$data.src = "img/avatar2.svg";
-      wrapper.find('svg').trigger('load')
-      // Letting SVG load - delyaing for 1 second
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      expect(vm.$el.svg().querySelector('g[id]')).toBeDefined()
-
+    it("$event via stub", async () => {
       // checking loadSVG via stubs
       vm.loadSVG = sinon.stub()
-      vm.$data.src = "img/avatar1.svg";
-      wrapper.find('svg').trigger('load')
+      vm.errorHappened = sinon.stub()
+      wrapper.trigger('svg-loaded', {src: "img/avatar2.svg"})
       expect(vm.loadSVG.called).toBe(true)
-
-      vm.$data.src = "img/avatar2.svg";
-      wrapper.find('svg').trigger('load')
-      expect(vm.loadSVG.called).toBe(true)
-
-
-
-      vm.clicked = sinon.stub()
-      vm.loadSVG = sinon.stub()
-      wrapper.find('svg').trigger('load')
-      expect(vm.loadSVG.called).toBe(true)
+      expect(vm.loadSVG.callCount).toBe(1)
       expect(vm.errorHappened.called).toBe(false)
       //console.log(vm.partsGrouped())
     })

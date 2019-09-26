@@ -8,7 +8,7 @@
         <AvatarsCarousel ref="avatarCarousel" />
       </div>
       <div class="col col-auto flex justify-center item-center">
-        <Avatar />
+        <Avatar ref="avatar" />
       </div>
     </div>
     <div class="row justify-beginning">

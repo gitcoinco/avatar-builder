@@ -1,4 +1,5 @@
 <template>
+  <!-- should use func(...arguments) notation for for stubs in tests -->
   <svg
     version="1.1"
     id="Layer_1"
@@ -10,13 +11,11 @@
     style="enable-background:new 0 0 278.454834 357.205414;"
     xml:space="preserve"
     :src="src"
-    @show-part="showPart"
-    @load="loadSVG()"
-    @error="errorHappened()"
+    @svg-loaded="loadSVG(...arguments)"
+    @error="errorHappened(...arguments)"
+    @show-part="showPart(...arguments)"
     class="avatar wrap"
-  >
-    <g id="head_0"></g>
-  </svg>
+  ></svg>
 </template>
 
 <script>
@@ -26,45 +25,63 @@ import xml2js from "xml2js";
 import adapter from "axios/lib/adapters/http";
 export default {
   name: "Avatar",
-  data() {
+  data: () => {
     return {
       src: "img/avatar1.svg"
     };
   },
+  created() {
+    this.$emit("svg-loaded", { src: "img/avatar1.svg" });
+  },
   methods: {
-    errorHappened(err) {
-      console.error(err);
+    errorHappened(event) {
+      console.error(event.err);
     },
-    async loadSVG() {
-      const src = this.svg().getAttribute("src");
+    loadSVG: async function(event) {
+      console.log("Event.options", event.src);
+      // for some reason strings are not passed correctly
+      let stringEvent = event.src;
+
+      let src = stringEvent || this.$data.src;
+      this.$data.src = src;
       console.info("SRC", src);
       await axios
         .get(`http://localhost:8080/${src}`, {
           adapter
         })
-        .catch(err => console.error("error", err))
-        .then(response => {
-          //console.log("loaded", response);
-          return xml2js
+        .then(response => xml2js
             .parseStringPromise(response.data)
             .catch(err => console.error("Error loading XML", err))
-            .then(
-              xml =>
-                (this.svg().innerHTML = new xml2js.Builder().buildObject(
-                  xml // TODO make sure we don't put nested SVG
-                ))
-            );
-          //.then(data => console.log("data", data));
-        });
+            .then(xml => this.svg().innerHTML = new xml2js.Builder().buildObject(
+                xml // TODO make sure we don't put nested SVG
+              )))
+        .catch(err => this.$emit("errorHappened", { err: err }));
     },
     partsGrouped() {
-      console.log("Loaded!");
+      console.log("partsGrouped!");
       const parts = Array.prototype.slice.call(
         this.svg().querySelectorAll("g[id]")
       );
       //console.log("Parts:", parts);
       return _.groupBy(parts, it => it.id.split("_")[0]);
     },
+
+    update() {
+      _.each(this.$data.slides, (val, key) => {
+        console.log("Key:Val", val, key);
+        this.svg()
+          .rootElement.querySelectorAll("g[id *= '" + key + "_']")
+          .forEach(el => {
+            let id = el.getAttribute("id");
+            let visibility = id.endsWith("_" + (val + 1))
+              ? "visible"
+              : "hidden";
+            console.log("Setting", key, val + 1, id, "to", visibility);
+            el.setAttribute("visibility", visibility);
+          });
+      });
+    },
+
     /**
      Called from underlaying component when part should be shown, other hidden
     */
