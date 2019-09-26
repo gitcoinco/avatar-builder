@@ -49,12 +49,17 @@ export default {
         .get(`http://localhost:8080/${src}`, {
           adapter
         })
-        .then(response => xml2js
+        .then(response =>
+          xml2js
             .parseStringPromise(response.data)
             .catch(err => console.error("Error loading XML", err))
-            .then(xml => this.svg().innerHTML = new xml2js.Builder().buildObject(
-                xml // TODO make sure we don't put nested SVG
-              )))
+            .then(
+              xml =>
+                (this.svg().innerHTML = new xml2js.Builder().buildObject(
+                  xml // TODO make sure we don't put nested SVG
+                ))
+            )
+        )
         .catch(err => this.$emit("errorHappened", { err: err }));
     },
     partsGrouped() {
