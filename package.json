@@ -19,28 +19,28 @@
     "electron-chromedriver": "./node_modules/electron-chromedriver/bin/chromedriver --port=9515 --url-base=wd/hub --verbose"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.3.2",
     "axios": "^0.18.1",
     "lodash": "^4.17.15",
-    "quasar": "^1.0.0",
+    "quasar": "^1.1.4",
     "vue-i18n": "^8.0.0",
     "xml2js": "^0.4.22"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0",
+    "@quasar/app": "^1.1.2",
     "@quasar/cli": "^1.0.0",
     "@quasar/quasar-app-extension-testing": "^1.0.0",
     "@quasar/quasar-app-extension-testing-e2e-webdriver": "^1.0.0-beta.9",
     "@quasar/quasar-app-extension-testing-unit-jest": "^1.0.0",
     "@vue/eslint-config-prettier": "^4.0.0",
-    "@wdio/cli": "^5.13.1",
-    "@wdio/local-runner": "^5.13.1",
+    "@wdio/cli": "^5.13.2",
+    "@wdio/local-runner": "^5.13.2",
     "babel-eslint": "^10.0.1",
     "electron-chromedriver": "^6.0.0",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "sinon": "^7.4.2",
+    "sinon": "^7.5.0",
     "vue-jest": "^3.0.5"
   },
   "engines": {
