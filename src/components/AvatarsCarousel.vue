@@ -30,6 +30,10 @@
 </template>
 <script>
 import AvatarMixin from "../mixins/avatar-mixin";
+
+import Log from "console-log-level";
+const log = Log({ level: "debug" });
+
 export default {
   name: "AvatarsCarousel",
   mixins: [AvatarMixin],
@@ -38,22 +42,23 @@ export default {
       slide: 0
     };
   },
-  created() {
-    //console.log("DATA:", this.$data);
+  mounted() {
+    //log.debug("DATA:", this.$data);
+    this.$forceUpdate();
   },
   methods: {
     current() {
       return this.$data.avatars[parseInt(this.$data.slide, 10)];
     },
     updateParts() {
-      console.log("data()", this.$data);
-      console.log("slide", this.$data.slide);
-      console.log("current().src", this.current().src);
+      log.debug("data()", this.$data);
+      log.debug("slide", this.$data.slide);
+      log.debug("current().src", this.current().src);
       const partsInstance = this.$parent.$refs.parts;
       partsInstance && partsInstance.$forceUpdate();
       this.$parent.$emit("avatar-changed", { src: this.current().src });
 
-      console.log("Slide:", arguments);
+      log.debug("Slide:", arguments);
       let avaSVG = document.querySelector("object");
       if (avaSVG) {
         let avaSVGDoc = avaSVG.contentDocument || avaSVG.getSVGDocument();

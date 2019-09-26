@@ -4,8 +4,8 @@
     @avatar-changed="avatarChanged(...arguments)"
   >
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" /> -->
-    <img alt="ava1" src="~/assets/avatar1.svg" class="px1" />
-    <img alt="ava2" src="~/assets/avatar2.svg" class="px1" />
+    <img alt="ava1" src="~/assets/avatar1.svg" class="px1 img_holder" />
+    <img alt="ava2" src="~/assets/avatar2.svg" class="px1 img_holder" />
     <div class="row">
       <AvatarsCarousel
         ref="avatarCarousel"
@@ -38,16 +38,25 @@
 import Avatar from "../components/Avatar";
 import AvatarsCarousel from "../components/AvatarsCarousel";
 import PartsCarousel from "../components/PartsCarousel";
+
+import Log from "console-log-level";
+const log = Log({ level: "debug" });
+
 export default {
   name: "PageIndex",
   mounted() {
-    console.log("mounted", this.$refs.parts);
+    //log.debug("mounted", this.$refs.parts);
+    log.debug(this.$refs.avatarCarousel.$data.avatars);
+    // filling data with right urls
+    document.querySelectorAll("img.img_holder").forEach((it, idx) => {
+      this.$refs.avatarCarousel.$data.avatars[idx].src = it.src;
+    });
     // TODO make it loading default
-    this.$refs.avatar.loadSVG({ src: "img/avatar1.svg" });
-    this.$refs.avatar.$forceUpdate();
+    this.$refs.avatar.loadSVG();
+    //this.$refs.avatar.$forceUpdate();
 
     this.$refs.parts.selectItem();
-    this.$refs.parts.$forceUpdate();
+    //fthis.$refs.parts.$forceUpdate();
   },
   data: function() {
     return {
@@ -61,7 +70,7 @@ export default {
   },
   methods: {
     avatarChanged(event) {
-      console.log("Avatar changed", event.src, this);
+      log.debug("Avatar changed", event.src, this);
       this.$refs.avatar.loadSVG({ src: event.src });
       this.$refs.avatar.$forceUpdate();
 

@@ -12,11 +12,13 @@ export default {
       slide: 0,
       avatars: [
         {
-          src: "img/avatar1.svg",
+          //src: 'http://localhost:8080/img/avatar1.svg',
+          src: "/img/avatar1.svg",
           parts: []
         },
         {
-          src: "img/avatar2.svg",
+          //src: 'http://localhost:8080/img/avatar2.svg',
+          src: "/img/avatar2.svg",
           parts: []
         }
       ]

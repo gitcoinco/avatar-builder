@@ -39,6 +39,10 @@
 </template>
 <script>
 // import _ from "lodash";
+
+import Log from "console-log-level";
+const log = Log({ level: "debug" });
+
 export default {
   /* eslint-disable vue/no-shared-component-data */
   data() {
@@ -70,8 +74,8 @@ export default {
   //  },
   methods: {
     selectItem() {
-      console.log("In Parts", this.partsGrouped, this.$data.slides, arguments);
-      this.$parent.$parent.$refs.avatar.showPart(this.$data.slides)
+      log.debug("In Parts", this.partsGrouped, this.$data.slides, arguments);
+      this.$parent.$parent.$refs.avatar.showPart(this.$data.slides);
     }
   }
 };
