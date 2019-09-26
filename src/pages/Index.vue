@@ -1,15 +1,14 @@
 <template>
-  <q-page class="fluid justify-center">
+<q-page
+  class="fluid justify-center"
+  @avatar-changed="avatarChanged(...arguments)"
+  >
     <!-- <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" /> -->
     <img alt="ava1" src="~/assets/avatar1.svg" class="px1" />
     <img alt="ava2" src="~/assets/avatar2.svg" class="px1" />
     <div class="row">
-      <div class="col col-3 justify-center item-center">
-        <AvatarsCarousel ref="avatarCarousel" />
-      </div>
-      <div class="col col-auto flex justify-center item-center">
-        <Avatar ref="avatar" />
-      </div>
+        <AvatarsCarousel ref="avatarCarousel" class="col col-3 justify-center item-center"/>
+        <Avatar ref="avatar" class="col col-auto flex justify-center item-center"/>
     </div>
     <div class="row justify-beginning">
       <div class="col-auto flex">
@@ -37,6 +36,9 @@ export default {
   name: "PageIndex",
   mounted() {
     console.log("mounted", this.$refs.parts);
+    // TODO make it loading default
+    this.$refs.avatar.loadSVG({src:'img/avatar1.svg'});
+    this.$refs.avatar.$forceUpdate()
   },
   data: function() {
     return {
@@ -48,6 +50,12 @@ export default {
     AvatarsCarousel,
     PartsCarousel
   },
-  methods: {}
+  methods: {
+    avatarChanged(event){
+      console.log('Avatar changed', event.src, this);
+      this.$refs.avatar.loadSVG({src:event.src});
+      this.$refs.avatar.$forceUpdate()
+    }
+  }
 };
 </script>

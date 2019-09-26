@@ -50,8 +50,8 @@ export default {
       console.log("slide", this.$data.slide);
       console.log("current().src", this.current().src);
       const partsInstance = this.$parent.$refs.parts;
-      this.$parent.$refs.avatar.$emit("svg-loaded", this.current().src);
       partsInstance && partsInstance.$forceUpdate();
+      this.$parent.$emit("avatar-changed", { src: this.current().src});
 
       console.log("Slide:", arguments);
       let avaSVG = document.querySelector("object");

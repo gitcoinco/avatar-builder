@@ -77,7 +77,7 @@ describe('Mount Quasar', () => {
 
     avatar.vm.$emit('svg-loaded', {src: 'img/avatar2.svg'})
     console.log('!!',avatar.emitted()['svg-loaded'][1][0]);
-    expect(avatar.emitted()['svg-loaded'][1][0]).toBe('img/avatar2.svg');
+    expect(avatar.emitted()['svg-loaded'][1][0].src).toBe('img/avatar2.svg');
     // Letting SVG load - delyaing for 1 second
     avatar.trigger('svg-loaded', {src: 'img/avatar2.svg'})
     console.log(wrapper.find(Avatar).vm.$data.src);
