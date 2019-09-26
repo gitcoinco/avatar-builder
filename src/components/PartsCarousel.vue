@@ -20,6 +20,7 @@
       <q-carousel-slide
         :name="index"
         class="column no-wrap"
+        @render="renderSlide()"
         v-for="(part, index) in partsGrouped[key]"
         :key="index"
       >
@@ -29,7 +30,7 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
             version="1.1"
             xml:space="preserve"
-            v-html="part.html"
+            v-html="part.outerHTML"
           ></svg>
         </div>
       </q-carousel-slide>
@@ -40,16 +41,24 @@
 // import _ from "lodash";
 export default {
   /* eslint-disable vue/no-shared-component-data */
-  data: {
-    slides: {
-      background: 0,
-      clothing: 0,
-      ears: 0,
-      head: 0,
-      mouth: 0,
-      nose: 0,
-      eyes: 0,
-      hair: 0
+  data() {
+    return {
+      slide: 0,
+      slides: {
+        background: 0,
+        clothing: 0,
+        ears: 0,
+        head: 0,
+        mouth: 0,
+        nose: 0,
+        eyes: 0,
+        hair: 0
+      }
+    };
+  },
+  computed: {
+    partsGrouped() {
+      return this.$parent.$parent.$refs.avatar.$data.partsGrouped;
     }
   },
   //  props: {},
@@ -59,21 +68,10 @@ export default {
   // *
   // */
   //  },
-  mounted() {
-    console.log("Mounted");
-  },
   methods: {
     selectItem() {
-      console.log(this.$data.slides, this.$data.partsGrouped);
-      this.$parent.$parent.$refs.avatar.update();
-    },
-    partsGrouped() {
-      // console.log(this.$parent.$parent.$refs.avatar.current().parts);
-      // return _.groupBy(
-      //   this.$parent.$parent.$refs.avatar.current().parts,
-      //   it => it.id.split("_")[0]
-      // );
-      return this.$parent.$parent.$refs.avatar.partsGrouped();
+      console.log("In Parts", this.partsGrouped, this.$data.slides, arguments);
+      this.$parent.$parent.$refs.avatar.showPart(this.$data.slides)
     }
   }
 };

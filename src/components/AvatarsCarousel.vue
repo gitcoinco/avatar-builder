@@ -51,7 +51,7 @@ export default {
       console.log("current().src", this.current().src);
       const partsInstance = this.$parent.$refs.parts;
       partsInstance && partsInstance.$forceUpdate();
-      this.$parent.$emit("avatar-changed", { src: this.current().src});
+      this.$parent.$emit("avatar-changed", { src: this.current().src });
 
       console.log("Slide:", arguments);
       let avaSVG = document.querySelector("object");
