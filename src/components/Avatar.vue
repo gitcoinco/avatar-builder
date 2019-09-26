@@ -29,17 +29,17 @@ const log = Log({ level: "debug" });
 
 export default {
   name: "Avatar",
-  data(){
+  data() {
     return {
-      src: '/img/avatar1.svg',
+      src: "/img/avatar1.svg",
       partsGrouped: {}
-    }
+    };
   },
-//  props:['partsGrouped'],
+  //  props:['partsGrouped'],
   methods: {
-    created(){
-      this.loadSVG({src:'/img/avatar1.svg'})
-      this.$forceUpdate()
+    created() {
+      this.loadSVG({ src: "/img/avatar1.svg" });
+      this.$forceUpdate();
     },
     errorHappened(event) {
       log.error(event.err);
